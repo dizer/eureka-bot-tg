@@ -4,7 +4,7 @@ class EurekaBot::Tg::Controller < EurekaBot::Controller
   autoload :Response
 
   def answer(params={})
-    super({params: {chat_id: chat.id}}.deep_merge(params))
+    super({params: {chat_id: chat.try(:id)}}.deep_merge(params))
   end
 
   def chat

@@ -27,3 +27,4 @@ nbproject
 .ruby-env
 .DS_Store
 Vagrantfile
+Gemfile.lock

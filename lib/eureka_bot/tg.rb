@@ -1,6 +1,10 @@
-module EurekaBot::Tg
-  extend ActiveSupport::Autoload
+require 'telegram/bot'
 
-  autoload :Version
-  autoload :Controller
+module EurekaBot
+  module Tg
+    extend ActiveSupport::Autoload
+
+    autoload :Version
+    autoload :Controller
+  end
 end

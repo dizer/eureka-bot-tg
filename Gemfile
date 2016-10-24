@@ -1,8 +1,8 @@
-# source 'https://rubygems.org'
-
+source 'https://rubygems.org'
+gemspec
 
 gem 'activesupport', '>= 5.0.0'
-gem 'eureka-bot', path: '~/projects/eureka-bot'
+gem 'eureka-bot', git: 'git@bitbucket.org:styletransfer/eureka-bot.git'
 gem 'telegram-bot-ruby', require: 'telegram/bot', github: 'dizer/telegram-bot-ruby'
 
 group :development, :test do
@@ -15,5 +15,3 @@ group :test do
   gem 'webmock'
   # gem 'vcr'
 end
-
-# gemspec
