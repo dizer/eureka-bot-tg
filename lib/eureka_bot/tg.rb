@@ -6,5 +6,6 @@ module EurekaBot
 
     autoload :Version
     autoload :Controller
+    autoload :Utils
   end
 end

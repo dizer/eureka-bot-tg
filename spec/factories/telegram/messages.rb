@@ -18,7 +18,8 @@ FactoryGirl.define do
         title:      nil,
         username:   'john_doe',
         first_name: 'John',
-        last_name:  'Doe'
+        last_name:  'Doe',
+        all_members_are_admins: nil
     })
 
     trait :start do
