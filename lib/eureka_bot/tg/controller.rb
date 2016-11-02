@@ -8,7 +8,12 @@ class EurekaBot::Tg::Controller < EurekaBot::Controller
   end
 
   def chat
-    message.chat
+    case message
+      when Telegram::Bot::Types::Message
+        message.chat
+      when Telegram::Bot::Types::CallbackQuery
+        message.message.chat
+    end
   end
 
   def response_class
