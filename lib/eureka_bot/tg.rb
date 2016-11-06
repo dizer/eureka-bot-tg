@@ -4,8 +4,9 @@ module EurekaBot
   module Tg
     extend ActiveSupport::Autoload
 
-    autoload :Version
     autoload :Controller
     autoload :Utils
+    autoload :Version
+    autoload :Webhook
   end
 end
