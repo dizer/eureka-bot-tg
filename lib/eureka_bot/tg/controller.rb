@@ -27,4 +27,21 @@ class EurekaBot::Tg::Controller < EurekaBot::Controller
   def tg_token
     'Example'
   end
+
+  def edit(query: {}, edited_message: {}, method: 'editMessageText')
+    response << {
+        method: method,
+        params: query.merge(edited_message)
+    }
+  end
+
+  def edit_callback(callback, edited_message: {}, method: 'editMessageText')
+    query = {
+        chat_id:           callback.message.chat.id,
+        message_id:        callback.message.message_id,
+        inline_message_id: callback.inline_message_id
+    }.compact
+
+    edit(query: query, edited_message: edited_message, method: method)
+  end
 end
