@@ -20,6 +20,30 @@ namespace :eureka do
         EurekaBot.logger.info '#ping'
       end
     end
+
+    desc 'Get/Set webhook'
+    task :webhook do
+      token           = ENV.fetch('TG_TOKEN')
+      url             = ENV.fetch('URL', nil)
+      max_connections = ENV.fetch('max_connections', nil)
+      client          = EurekaBot::Tg::Client.new(token: token)
+
+      if url.present?
+        EurekaBot.logger.info(
+            {
+                result: client.make_request(
+                    'setWebhook',
+                    payload: {
+                                 url:             url,
+                                 max_connections: max_connections
+                             }.compact.to_json
+                )
+            }.to_json
+        )
+      end
+
+      EurekaBot.logger.info client.make_request('getWebhookInfo').to_json
+    end
   end
 end
 
