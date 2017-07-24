@@ -4,16 +4,16 @@ class EurekaBot::Tg::Webhook
   class TokenVerificationFailed < StandardError;
   end
 
-  attr_reader :update, :resolver_class
+  attr_reader :params, :resolver_class
 
   def initialize(params:, resolver_class:)
-    @update         = params
+    @params         = params
     @resolver_class = resolver_class
   end
 
   def process
-    instrument 'eureka-bot.tg.webhook', update: update do
-      EurekaBot::Job::Input.perform_later(resolver_class.to_s, update['message'])
+    instrument 'eureka-bot.tg.webhook', params: params do
+      EurekaBot::Job::Input.perform_later(resolver_class.to_s, params['message'])
     end
   end
 
