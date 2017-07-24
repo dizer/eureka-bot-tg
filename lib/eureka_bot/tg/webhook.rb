@@ -23,6 +23,10 @@ class EurekaBot::Tg::Webhook
   end
 
   def check_token!(valid_token, token_path: [:token])
-    check_token(valid_token, token_path: token_path) || (raise TokenVerificationFailed.new)
+    check_token(valid_token, token_path: token_path) || (raise TokenVerificationFailed.new({
+                                                                                               expected_token: valid_token,
+                                                                                               token_path:     token_path,
+                                                                                               params:         params
+                                                                                           }.to_json))
   end
 end
