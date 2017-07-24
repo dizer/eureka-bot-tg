@@ -1,22 +1,20 @@
 class EurekaBot::Tg::Webhook
+  include EurekaBot::Instrumentation
+
   class TokenVerificationFailed < StandardError;
   end
 
-  attr_reader :params, :resolver_class
+  attr_reader :update, :resolver_class
 
   def initialize(params:, resolver_class:)
-    @params         = params
+    @update         = params
     @resolver_class = resolver_class
   end
 
   def process
-    update  = Telegram::Bot::Types::Update.new(params)
-    message = update.inline_query ||
-        update.chosen_inline_result ||
-        update.callback_query ||
-        update.edited_message ||
-        update.message
-    EurekaBot::Job.perform_async(resolver_class, message)
+    instrument 'eureka-bot.tg.webhook', update: update do
+      EurekaBot::Job::Input.perform_later(resolver_class.to_s, update['message'])
+    end
   end
 
   def check_token(valid_token, token_path: [:token])

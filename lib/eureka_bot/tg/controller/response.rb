@@ -4,9 +4,15 @@ class EurekaBot::Tg::Controller::Response < EurekaBot::Controller::Response
 
   def consume
     while element = @data.shift
-      client = controller.tg_client
-      client.api.send(element[:method], *Array.wrap(element[:params]))
+      EurekaBot::Job::Output.perform_later(
+          self.class.sender_class.to_s,
+          element
+      )
     end
+  end
+
+  def self.sender_class
+    @@sender_class ||= EurekaBot::Tg::Sender
   end
 
 end

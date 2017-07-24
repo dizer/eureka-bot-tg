@@ -7,8 +7,13 @@ require 'webmock/rspec'
 # require 'vcr'
 require 'factory_girl'
 
+EurekaBot.logger       = Logger.new(STDOUT)
+EurekaBot.logger.level = Logger::DEBUG
+
 $:.unshift File.dirname(__FILE__) + '/..'
 Dir['spec/support/**/*.rb'].each { |f| require f }
+
+EurekaBot::Job.queue_adapter = :inline
 
 RSpec.configure do |config|
   config.include WebRequestHelper
@@ -38,10 +43,10 @@ RSpec.configure do |config|
   config.profile_examples = 10
   config.order            = :random
 
-  # tag to disable VCR and WebMock
-  # it 'Real web request', :novcr { ... }
+  # tag to disable WebMock
+  # context 'Real web request', :with_web { ... }
   config.around do |example|
-    if example.metadata[:novcr]
+    if example.metadata[:with_web]
       with_web_request do
         example.run
       end

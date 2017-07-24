@@ -1,6 +1,5 @@
 FactoryGirl.define do
-  # factory :telegram_message, class: Hash do
-  factory :telegram_message, class: Telegram::Bot::Types::Message do
+  factory :telegram_message, class: Hash do
     sequence(:message_id)
 
     from ({
@@ -10,20 +9,27 @@ FactoryGirl.define do
         username:   'john_doe'
     })
 
-    sequence(:date, 1.day.ago.to_i)
-
     chat ({
         id:         1,
-        type:       'private',
-        title:      nil,
-        username:   'john_doe',
         first_name: 'John',
         last_name:  'Doe',
-        all_members_are_admins: nil
+        username:   'john_doe',
+        type:       'private',
     })
+
+    sequence(:date, Time.parse('2016-01-01 12:00 Z').to_i)
+
+    text 'hello'
 
     trait :start do
       text '/start'
+      entities [
+                   {
+                       type:   'bot_command',
+                       offset: 0,
+                       length: 6
+                   }
+               ]
     end
 
     trait :at_group do
@@ -41,24 +47,6 @@ FactoryGirl.define do
       data 'callback-data'
     end
 
-    trait :with_sticker do
-      sticker (
-                  {
-                      'file_id'   => 'BQADAgADTwQAAiaoBAABQz5e8qCNIiYC',
-                      'width'     => 512,
-                      'height'    => 512,
-                      'thumb'     => {
-                          'file_id'   => 'AAQCABMMroIqAAQ3sDZFx0jn_XEYAAIC',
-                          'width'     => 128,
-                          'height'    => 128,
-                          'file_size' => 5542
-                      },
-                      'emoji'     => '-',
-                      'file_size' => 37024
-                  }
-              )
-    end
-
-    # initialize_with { attributes.as_json }
+    initialize_with {attributes.compact.as_json}
   end
 end
