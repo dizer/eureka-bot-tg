@@ -1,28 +1,40 @@
 class EurekaBot::Tg::Resolver < EurekaBot::Resolver
   def resolve
-    if message['text'].to_s[0] == '/'
-      parts = message['text'].split(' ')
+
+    if callback_query.present?
+      version, controller, action, *data = callback_query['data'].split(':')
       return {
-          controller: 'commands',
-          action:     parts[0].gsub('/', '').to_sym,
-          params:     {raw: parts[1..-1], version: 'v1'}
+          controller: controller,
+          action:     action.to_sym,
+          params:     {raw: data, version: version}
       }
     end
 
-    if message['photo'].present?
-      return {
-          controller: 'photos',
-          action:     :photo,
-          params:     {photos: message['photo'], version: 'v1'}
-      }
-    end
+    if simple_message.present?
+      if simple_message['text'].to_s[0] == '/'
+        parts = simple_message['text'].split(' ')
+        return {
+            controller: 'commands',
+            action:     parts[0].gsub('/', '').to_sym,
+            params:     {raw: parts[1..-1], version: 'v1'}
+        }
+      end
 
-    if message['text'].present?
-      return {
-          controller: 'text',
-          action:     :text,
-          params:     {raw: message['text'], version: 'v1'}
-      }
+      if simple_message['photo'].present?
+        return {
+            controller: 'photos',
+            action:     :photo,
+            params:     {photos: simple_message['photo'], version: 'v1'}
+        }
+      end
+
+      if simple_message['text'].present?
+        return {
+            controller: 'text',
+            action:     :text,
+            params:     {raw: simple_message['text'], version: 'v1'}
+        }
+      end
     end
 
     {
@@ -33,5 +45,13 @@ class EurekaBot::Tg::Resolver < EurekaBot::Resolver
 
   def controller_namespace
     EurekaBot::Tg::Controller
+  end
+
+  def simple_message
+    message['message'].presence
+  end
+
+  def callback_query
+    message['callback_query'].presence
   end
 end

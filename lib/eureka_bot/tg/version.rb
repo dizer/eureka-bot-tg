@@ -1,5 +1,5 @@
 module EurekaBot
   module Tg
-    VERSION = '2.0.3'
+    VERSION = '2.0.4'
   end
 end
