@@ -13,7 +13,7 @@ class EurekaBot::Tg::Webhook
 
   def process
     instrument 'eureka-bot.tg.webhook', params: params do
-      EurekaBot::Job::Input.perform_later(resolver_class.to_s, params['message'])
+      EurekaBot::Job::Input.perform_later(resolver_class.to_s, params)
     end
   end
 
