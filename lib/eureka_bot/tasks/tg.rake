@@ -10,7 +10,7 @@ namespace :eureka do
 
       EurekaBot::Tg.client = EurekaBot::Tg::Client.new(token: token)
 
-      EurekaBot.logger.info 'starting getting #getUpdates'
+      EurekaBot.logger.info "starting getting #getUpdates for #{EurekaBot::Tg.client.make_request('getMe').to_json}"
 
       loop do
         EurekaBot::Tg.client.make_request('getUpdates', payload: {offset: offset, limit: limit, timeout: timeout}.compact.to_json).each do |update|

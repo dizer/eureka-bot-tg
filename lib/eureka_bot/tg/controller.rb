@@ -12,8 +12,16 @@ class EurekaBot::Tg::Controller < EurekaBot::Controller
     answer(params.deep_merge({params: {reply_to_message_id: message_id}}))
   end
 
+  def chat
+    message.dig('message', 'chat') || message.dig('callback_query', 'message', 'chat') || raise("Cant find chat in #{message}")
+  end
+
+  def from
+    message.dig('message', 'from') || message.dig('callback_query', 'message', 'from') || raise("Cant find from in #{message}")
+  end
+
   def chat_id
-    message.dig('message', 'chat', 'id') || message.dig('callback_query', 'message', 'chat', 'id') || raise("Cant find chat_id in #{message}")
+    chat['id']
   end
 
   def message_id
