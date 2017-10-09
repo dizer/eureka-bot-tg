@@ -17,7 +17,7 @@ class EurekaBot::Tg::Controller < EurekaBot::Controller
   end
 
   def from
-    message.dig('message', 'from') || message.dig('callback_query', 'message', 'from') || raise("Cant find from in #{message}")
+    message.dig('message', 'from') || message.dig('callback_query', 'from') || raise("Cant find from in #{message}")
   end
 
   def chat_id
