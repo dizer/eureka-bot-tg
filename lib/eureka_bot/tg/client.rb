@@ -29,7 +29,7 @@ class EurekaBot::Tg::Client
 
   def make_request(route, method: :get, **rest)
     full_route = Array.wrap(route).join('/')
-    instrument 'eureka-bot.tg.request', route: full_route, method: method, rest: rest do
+    instrument 'eureka-bot.tg.request', route: full_route, method: method, rest: JSON.generate(rest) do
       res = resource[full_route]
 
       options = rest.clone
@@ -43,6 +43,11 @@ class EurekaBot::Tg::Client
       }
 
       request[:payload] = payload if payload
+
+      if request[:payload].is_a?(Hash)
+        request[:headers].delete('Content-Type')
+        request[:multipart] = true
+      end
 
       response = nil
 
