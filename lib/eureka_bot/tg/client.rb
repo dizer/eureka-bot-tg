@@ -36,11 +36,11 @@ class EurekaBot::Tg::Client
       payload = options.delete(:payload)
       headers = (res.options[:headers] || {}).merge(options)
 
-      request           = {
+      request = options.merge(
           method:  method,
           url:     res.url,
           headers: headers
-      }
+      )
 
       request[:payload] = payload if payload
 
