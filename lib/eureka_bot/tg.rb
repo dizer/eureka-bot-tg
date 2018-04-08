@@ -1,3 +1,5 @@
+require 'active_support'
+
 module EurekaBot
   module Tg
     extend ActiveSupport::Autoload

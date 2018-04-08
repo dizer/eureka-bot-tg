@@ -4,6 +4,10 @@ class EurekaBot::Tg::Controller < EurekaBot::Controller
   autoload :Response
   autoload :SystemController
 
+  autoload :RepliesConcern, 'eureka_bot/tg/controller/concerns/replies_concern'
+  include EurekaBot::Tg::Controller::RepliesConcern
+
+
   def answer(params={})
     super({params: {chat_id: chat_id}}.deep_merge(params))
   end

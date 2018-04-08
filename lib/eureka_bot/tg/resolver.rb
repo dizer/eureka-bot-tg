@@ -28,6 +28,14 @@ class EurekaBot::Tg::Resolver < EurekaBot::Resolver
         }
       end
 
+      if simple_message['document'].present?
+        return {
+            controller: 'documents',
+            action:     :document,
+            params:     {document: simple_message['document'], version: 'v1'}
+        }
+      end
+
       if simple_message['text'].present?
         return {
             controller: 'text',

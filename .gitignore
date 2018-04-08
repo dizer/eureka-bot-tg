@@ -29,3 +29,4 @@ nbproject
 Vagrantfile
 Gemfile.lock
 spec/config.yml
+/examples/_tg.txt

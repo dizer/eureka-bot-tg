@@ -2,6 +2,7 @@ ENV['NEW_RELIC_ENV'] = 'test'
 
 require 'bundler'
 Bundler.require
+require 'eureka-bot'
 require './lib/eureka_bot/tg'
 require 'webmock/rspec'
 # require 'vcr'

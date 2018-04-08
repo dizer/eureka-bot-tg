@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe EurekaBot::Tg::Resolver do
 
   let(:message) { build(:telegram_message) }
-  let(:resolver) { EurekaBot::Tg::Resolver.new(message: message) }
+  let(:resolver) { EurekaBot::Tg::Resolver.new(message: {'message' => message}) }
   it do
     expect(resolver.resolve).to include(:controller, :action)
   end
